@@ -7,7 +7,7 @@
     </path>
 
     <target name="native2ascii">
-        <native2ascii src="./src/main/resources" dest="./src/main/resources_new"
+        <native2ascii src="./src/com/company/resources" dest="./src/com/company/resources_new"
                       includes="*.properties" ext=".properties"/>
     </target>
 
