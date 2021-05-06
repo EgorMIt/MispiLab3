@@ -56,10 +56,24 @@
 
     <target name="env" depends="build">
         <echo message="--- Executing: java ${params} -jar ${dest.jar} ---"/>
-
         <exec executable="cmd">
             <arg value="/c"/>
             <arg value="java ${params} -jar ${dest.jar}"/>
         </exec>
+    </target>
+
+    <target name="test" depends="build">
+        <echo message="--- TEST DONE ---"/>
+        <junit fork="true" printsummary="on">
+            <formatter type="xml"/>
+            <classpath>
+                <path refid="classpath.source"/>
+                <pathelement location="${compiled.classes}"/>
+                <pathelement location="${compiled.tests}"/>
+            </classpath>
+            <batchtest todir="reports">
+                <fileset dir="${test}" includes="*Test*.java"/>
+            </batchtest>
+        </junit>
     </target>
 </project>

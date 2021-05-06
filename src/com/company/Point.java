@@ -24,30 +24,18 @@ public class Point {
         return res;
     }
 
-    public double getY() {
-        return y;
-    }
-
     public void setY(double y) {
         this.y = y;
-    }
-
-    public double getX() {
-        return x;
     }
 
     public void setX(double x) {
         this.x = x;
     }
 
-    public float getR() {
-        return r;
-    }
-
     public void setR(float r) {
-        if(r>0){
+        if (r > 0) {
             this.r = r;
-        }else{
+        } else {
             throw new NullPointerException();
         }
     }
