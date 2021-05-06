@@ -1,11 +1,15 @@
 package com.company;
 
 public class Point {
-    private final double x;
-    private final double y;
+    private double x;
+    private double y;
+    private float r;
     private String res;
     private String owner;
 
+    public String getOwner() {
+        return owner;
+    }
 
     public Point(double x, double y) {
         this.x = x;
@@ -16,6 +20,37 @@ public class Point {
         this.owner = owner;
     }
 
+    public String getRes() {
+        return res;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public float getR() {
+        return r;
+    }
+
+    public void setR(float r) {
+        if(r>0){
+            this.r = r;
+        }else{
+            throw new NullPointerException();
+        }
+    }
 
     @Override
     public String toString() {
@@ -23,7 +58,6 @@ public class Point {
     }
 
     public void check() {
-        float r = 1;
         if ((x * x + y * y <= r * r && x <= 0 && y <= 0) ||
                 (y - 2 * x >= -r && x >= 0 && y <= 0) ||
                 (y <= r && x >= -r / 2 && x <= 0 && y >= 0)) {
