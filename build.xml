@@ -12,6 +12,7 @@
     </target>
 
     <target name="compile" depends="native2ascii">
+        <echo message="--- COMPILE DONE ---"/>
         <mkdir dir="${compiled.classes}"/>
         <mkdir dir="${compiled.tests}"/>
         <javac destdir="${compiled.classes}" includeantruntime="false">
@@ -31,14 +32,16 @@
     </target>
 
     <target name="build" depends="compile">
+        <echo message="--- BUILD DONE ---"/>
         <jar destfile="${dest.jar}" basedir="${compiled.classes}" compress="false" index="true">
             <manifest>
-                <attribute name="Main-Class" value="main.Main"/>
+                <attribute name="Main-Class" value="com.company.Main"/>
             </manifest>
         </jar>
     </target>
 
     <target name="music" depends="build">
+        <echo message="--- MUSIC DONE ---"/>
         <exec executable="cmd">
             <arg value="/c"/>
             <arg value="${music}"/>
@@ -47,6 +50,16 @@
     </target>
 
     <target name="clean">
+        <echo message="--- CLEAN DONE ---"/>
         <delete dir="${compiled}"/>
+    </target>
+
+    <target name="env" depends="build">
+        <echo message="--- Executing: java ${params} -jar ${dest.jar} ---"/>
+
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="java ${params} -jar ${dest.jar}"/>
+        </exec>
     </target>
 </project>
