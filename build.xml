@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <project name="MispiLab3" default="music">
     <property file="build.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="lib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
 
     <path id="classpath.source">
         <fileset dir="${lib.dir}" includes="**/*.jar"/>
@@ -44,7 +49,7 @@
         <echo message="--- MUSIC DONE ---"/>
         <exec executable="cmd">
             <arg value="/c"/>
-            <arg value="${music}"/>
+            <arg value="${musicPlayer} ${music}"/>
             <arg value="-p"/>
         </exec>
     </target>
@@ -75,5 +80,41 @@
                 <fileset dir="${test}" includes="*Test*.java"/>
             </batchtest>
         </junit>
+    </target>
+
+    <target name="history">
+        <trycatch>
+            <try>
+                <runtarget target="compile"/>
+                <echo message="--- NO ERRORS, COMPILE DONE ---"/>
+            </try>
+            <catch>
+                <exec executable="cmd" outputproperty="git_log_head">
+                    <arg value="/c"/>
+                    <arg value="git log --pretty=format:%h - %an, %ar : %s | head -1"/>
+                </exec>
+                <exec executable="cmd" outputproperty="git_log_tail">
+                    <arg value="/c"/>
+                    <arg value="git log --pretty=format:%h - %an, %ar : %s | tail -1"/>
+                </exec>
+                <if>
+                    <equals arg1="${git_log_head}" arg2="${git_log_tail}"/>
+                    <then>
+                        <echo message="I cannot build the first commit. Stop"/>
+                    </then>
+                    <else>
+                        <exec executable="cmd" output="diff">
+                            <arg value="/c"/>
+                            <arg value="git diff HEAD~1"/>
+                        </exec>
+                        <exec executable="cmd">
+                            <arg value="/c"/>
+                            <arg value="git reset HEAD~1 --hard"/>
+                        </exec>
+                        <runtarget target="history"/>
+                    </else>
+                </if>
+            </catch>
+        </trycatch>
     </target>
 </project>
